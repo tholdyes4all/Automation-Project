@@ -20,11 +20,23 @@ test.describe('Login Tests', () => {
         });
         //kiểm tra menu 
         test('check left menu', async () => {
-        await page.locator("//div[@role='button'][.//span[text()='Task management']]").hover();
-        const buttonCollapse = page.locator("button:has(svg[data-testid='ArrowForwardIosRoundedIcon'])");
-            await buttonCollapse.waitFor({ state: 'visible', timeout: 5000 });
-            await buttonCollapse.scrollIntoViewIfNeeded();
-            await buttonCollapse.dblclick();
+
+        // Hover vào element cha (ví dụ: div hoặc button cha của nút cần click)
+         await page.hover("//div[@aria-label='Homepage']//div[@class='MuiListItemIcon-root mui-8rvncq']//*[name()='svg']", { timeout: 10000 });
+         // Chờ icon svg xuất hiện rồi click
+        await page.waitForSelector("//button[@class='MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium button-collapse mui-yla0qo']//*[name()='svg']", { timeout: 10000 });
+        await page.click("//button[@class='MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium button-collapse mui-yla0qo']//*[name()='svg']", { timeout: 10000 });
+        // Thu gọn lại menu
+        await page.hover("//div[@aria-label='Homepage']//div[@class='MuiListItemIcon-root mui-8rvncq']//*[name()='svg']", { timeout: 10000 });
+        await page.waitForSelector("//button[@class='MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium button-collapse mui-110669n']//*[name()='svg']", { timeout: 10000 });
+        await page.click("//button[@class='MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium button-collapse mui-110669n']//*[name()='svg']", { timeout: 10000 });
+
+        // Kiểm tra các mục menu
+        await expect(page.locator("//div[@aria-label='Task management']//div[@role='button']")).toBeVisible();
+        await expect(page.locator("//div[@aria-label='Product center']//div[@role='button']")).toBeVisible();   
+        await expect(page.locator("//div[@aria-label='Commercial']//div[@role='button']")).toBeVisible();
+        await expect(page.locator("//div[@aria-label='Operation']//div[@role='button']")).toBeVisible();
+        await expect(page.locator("//div[@aria-label='Master Data']//div[@role='button']")).toBeVisible();
         });
 
 test.afterEach(async () => {
