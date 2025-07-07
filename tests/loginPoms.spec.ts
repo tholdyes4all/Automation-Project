@@ -82,6 +82,51 @@ test.describe('Login Tests', () => {
         await pageRequestchange.waitForLoadState();
         await expect(pageRequestchange).toHaveURL(/int-request\.yes4all\.com/);
         await pageRequestchange.close();
+
+        //click menu Commercial
+        await page.hover("//div[@aria-label='Commercial']//div[@role='button']");
+        await page.locator("//div[@aria-label='Commercial']//div[@role='button']").click()
+
+        const adsManagementSelector = "div#sub-menu div:nth-child(3) div:nth-child(1) div:nth-child(1) svg";
+        await page.waitForSelector(adsManagementSelector, { timeout: 10000 }); // OK
+        await page.locator(adsManagementSelector).hover(); // Tốt, nhắm chính xác
+        const [pageAdsmanagement] = await Promise.all([
+        context.waitForEvent('page'), // Bắt tab mới
+        page.locator(adsManagementSelector).nth(0).click() // Click vào rect
+        ]);
+        await pageAdsmanagement.waitForLoadState(); // Đảm bảo trang load xong
+        await expect(pageAdsmanagement).toHaveURL(/ads\.test\.yes4all\.com/); // Xác nhận đúng URL
+        await pageAdsmanagement.close(); // Đóng tab
+        
+        //click menu Commercial
+        await page.hover("//div[@aria-label='Commercial']//div[@role='button']");
+        await page.locator("//div[@aria-label='Commercial']//div[@role='button']").click()
+
+        const PromoManagementSelector = "div#sub-menu div:nth-child(4) div:nth-child(1) div:nth-child(1) svg";
+        await page.waitForSelector(PromoManagementSelector, { timeout: 10000 }); // OK
+        await page.locator(PromoManagementSelector).hover(); // Tốt, nhắm chính xác
+        const [pagePromoManagement] = await Promise.all([
+        context.waitForEvent('page'), // Bắt tab mới
+        page.locator(PromoManagementSelector).nth(0).click() // Click vào rect
+        ]);
+        await pagePromoManagement.waitForLoadState(); // Đảm bảo trang load xong
+        await expect(pagePromoManagement).toHaveURL(/int-promotion\.yes4all\.com/); // Xác nhận đúng URL
+        await pagePromoManagement.close(); // Đóng tab
+
+        
+        await page.hover("//div[@aria-label='Commercial']//div[@role='button']");
+        await page.locator("//div[@aria-label='Commercial']//div[@role='button']").click()
+
+        const rivalSelector = "div#sub-menu div:nth-child(5) div:nth-child(1) div:nth-child(1) svg";
+        await page.waitForSelector(rivalSelector, { timeout: 10000 }); // OK
+        await page.locator(rivalSelector).hover(); // Tốt, nhắm chính xác
+        const [pageRival] = await Promise.all([
+        context.waitForEvent('page'), // Bắt tab mới
+        page.locator(rivalSelector).nth(0).click() // Click vào rect
+        ]);
+        await pageRival.waitForLoadState(); // Đảm bảo trang load xong
+        await expect(pageRival).toHaveURL(/int-rival-scan\.yes4all\.com/); // Xác nhận đúng URL
+        await pageRival.close(); // Đóng tab
   });
 
   test.afterEach(async () => {
