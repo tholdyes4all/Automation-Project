@@ -34,20 +34,29 @@ test.describe('Login Tests', () => {
         await expect(page.locator("//div[@aria-label='Commercial']//div[@role='button']")).toBeVisible();
         await expect(page.locator("//div[@aria-label='Operation']//div[@role='button']")).toBeVisible();
         await expect(page.locator("//div[@aria-label='Master Data']//div[@role='button']")).toBeVisible();
-
-        //kiem tra item cua sub menu
-
-
-
-
         
+        //kiem tra click open new page task management
+
+        const [pageTaskmanagement] = await Promise.all([
+            context.waitForEvent('page'),
+            page.locator("//div[@aria-label='Task management']//div[@role='button']").click()
+        ]);
+        await pageTaskmanagement.waitForLoadState(); 
+        await expect(pageTaskmanagement).toHaveURL(/int-task\.yes4all\.com/); 
+        await pageTaskmanagement.close()
+        //kiểm tra click open new page product center '
+        const [pageProductcenter] = await Promise.all([
+            context.waitForEvent('page'),
+            page.locator("//div[@aria-label='Product center']//div[@role='button']").click()
+        ]);
+        await pageProductcenter.waitForLoadState(); 
+        await expect(pageProductcenter).toHaveURL(/int-product\.yes4all\.com/);
+        await pageProductcenter.close()
         });
 
-
+});
 
 test.afterEach(async () => {
   await context.close(); // Tự đóng context & browser
-
-});
 });
 
