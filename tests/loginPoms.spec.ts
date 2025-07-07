@@ -53,22 +53,35 @@ test.describe('Login Tests', () => {
     await expect(pageProductcenter).toHaveURL(/int-product\.yes4all\.com/);
     await pageProductcenter.close();
 
-    // Mở tab mới: Commercial
-
+   
         await page.hover("//div[@aria-label='Commercial']//div[@role='button']");
         await page.locator("//div[@aria-label='Commercial']//div[@role='button']").click()
     
-        const specialSvgXpath = "xpath=//div[@class='MuiBox-root mui-0']//div[1]//div[1]//div[1]//*[name()='svg']//*[name()='g' and contains(@clip-path,'url(#clip0')]//*[name()='g' and contains(@clip-path,'url(#clip1')]//*[name()='path' and contains(@d,'M14.5329 1')]";
-        await page.waitForSelector(specialSvgXpath, { timeout: 10000 });
-        await page.locator(specialSvgXpath).hover();
-    const [pageCatalog] = await Promise.all([
-      context.waitForEvent('page'),
-        page.locator(specialSvgXpath).click()
-     ]);
+        const CatalogXpath = "xpath=//div[@class='MuiBox-root mui-0']//div[1]//div[1]//div[1]//*[name()='svg']//*[name()='g' and contains(@clip-path,'url(#clip0')]//*[name()='g' and contains(@clip-path,'url(#clip1')]//*[name()='path' and contains(@d,'M14.5329 1')]";
+        await page.waitForSelector(CatalogXpath, { timeout: 10000 });
+        await page.locator(CatalogXpath).hover();
+        const [pageCatalog] = await Promise.all([
+        context.waitForEvent('page'),
+            page.locator(CatalogXpath).click()
+        ]);
         await pageCatalog.waitForLoadState();
         await expect(pageCatalog).toHaveURL(/int-catalog\.yes4all\.com/);
         await pageCatalog.close();
-        
+
+        //click menu Commercial
+        await page.hover("//div[@aria-label='Commercial']//div[@role='button']");
+        await page.locator("//div[@aria-label='Commercial']//div[@role='button']").click()
+
+        const requestChangeSelector = "div#sub-menu div:nth-child(2) div:nth-child(1) div:nth-child(1) svg";
+        await page.waitForSelector(requestChangeSelector, { timeout: 10000 });
+        await page.locator(requestChangeSelector).hover();
+        const [pageRequestchange] = await Promise.all([
+        context.waitForEvent('page'),
+            page.locator(requestChangeSelector).click()
+        ]);
+        await pageRequestchange.waitForLoadState();
+        await expect(pageRequestchange).toHaveURL(/int-request\.yes4all\.com/);
+        await pageRequestchange.close();
   });
 
   test.afterEach(async () => {
