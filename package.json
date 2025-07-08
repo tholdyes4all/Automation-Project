@@ -16,7 +16,9 @@
   "homepage": "https://github.com/tholdyes4all/Automation-Project#readme",
   "description": "",
   "devDependencies": {
-    "@playwright/test": "^1.53.1",
-    "@types/node": "^24.0.3"
+    "@playwright/test": "^1.53.2",
+    "@types/node": "^24.0.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
   }
 }
